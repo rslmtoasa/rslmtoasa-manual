@@ -29,8 +29,8 @@ Example:
 
    &control
       nsp = 1,
-      max_iterations = 50,
-      dq_tol = 0.000100,
+      nstep = 50,
+      conv_thr = 0.000100,
       ...
    /
 
@@ -236,7 +236,7 @@ Convergence Diagnostics
 
 **Action if non-convergent:**
 
-- Reduce mixing parameter ``alpha`` (from 0.5 to 0.3)
+- Reduce mixing parameter ``beta`` (from 0.5 to 0.3)
 - Increase Broyden history length
 - Increase recursion cutoff (``llsp``, ``lld``)
 - Use coarser energy mesh initially, then refine

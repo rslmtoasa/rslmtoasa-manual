@@ -118,8 +118,8 @@ lld
 
 **Related code:** ``source/recursion.f90``
 
-max_iterations
---------------
+nstep
+-----
 
 **Type:** Integer
 
@@ -139,7 +139,7 @@ max_iterations
 
 .. code-block:: fortran
 
-   max_iterations = 50  ! Quick calculation
+   nstep = 50  ! Quick calculation
 
 **Notes:**
 
@@ -149,8 +149,8 @@ max_iterations
 
 **Related code:** ``source/self.f90::process()``
 
-dq_tol
-------
+conv_thr
+--------
 
 **Type:** Real (Ry)
 
@@ -164,7 +164,7 @@ dq_tol
 
 .. math::
 
-   \sum_i |q_i^{(n+1)} - q_i^{(n)}| < \text{dq\_tol}
+   \sum_i |q_i^{(n+1)} - q_i^{(n)}| < \text{conv\_thr}
 
 - Calculation converges when charge density change is below this value
 - Smaller value = better convergence but may take more iterations
@@ -173,7 +173,7 @@ dq_tol
 
 .. code-block:: fortran
 
-   dq_tol = 1.0e-5  ! Reasonable accuracy
+   conv_thr = 1.0e-5  ! Reasonable accuracy
 
 **Notes:**
 
@@ -419,7 +419,7 @@ Control parameters defined and used in:
 See Also
 ========
 
-- :ref:`keywords/scf_settings` - Related SCF parameters (mixing, dq_tol)
+- :ref:`keywords/scf_settings` - Related SCF parameters (mixtype, conv_thr)
 - :ref:`keywords/energy_mesh` - Related energy parameters
 - :ref:`theory/scf_cycle` - Understanding SCF convergence
 - :ref:`theory/recursion_method` - Understanding recursion cutoffs

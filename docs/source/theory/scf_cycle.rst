@@ -36,7 +36,7 @@ The SCF cycle implements:
    
    .. math::
 
-      n^{(i+1/2)} = \alpha n^{(i+1)} + (1-\alpha) n^{(i)}
+      n^{(i+1/2)} = \beta n^{(i+1)} + (1-\beta) n^{(i)}
 
 7. **Check convergence** and repeat or stop
 
@@ -100,7 +100,7 @@ Implementation in RS-LMTO
 
 .. code-block:: fortran
 
-   do iteration = 1, max_iterations
+   do iteration = 1, nstep
       
       ! 1. Build Hamiltonian with current potential
       call hamiltonian%build_bulkham(lattice, charge, ...)
@@ -137,7 +137,7 @@ SCF Convergence Criteria
 
       \Delta q = \sum_i |q_i^{(i+1)} - q_i^{(i)}| < \text{tolerance}
 
-   Control: ``control%dq_tol`` (default: $10^{-5}$)
+   Control: ``self%conv_thr`` (default: $10^{-5}$)
 
 2. **Potential difference:**
    
@@ -162,9 +162,9 @@ Pure **linear mixing** (often too slow):
 
 .. math::
 
-   n^{(i+1/2)} = \alpha n_{\text{new}}^{(i+1)} + (1 - \alpha) n_{\text{old}}^{(i)}
+   n^{(i+1/2)} = \beta n_{\text{new}}^{(i+1)} + (1 - \beta) n_{\text{old}}^{(i)}
 
-where mixing parameter $\alpha \in (0, 1]$ controls step size.
+where mixing parameter $\beta \in (0, 1]$ controls step size.
 
 **Broyden Mixing** (more efficient):
 
@@ -172,7 +172,7 @@ Uses information from multiple previous iterations to predict better mix:
 
 .. math::
 
-   n^{(i+1/2)} = n^{(i)} + \alpha \Delta n^{(i)} + \sum_j c_j^{(i)} u_j^{(i)}
+   n^{(i+1/2)} = n^{(i)} + \beta \Delta n^{(i)} + \sum_j c_j^{(i)} u_j^{(i)}
 
 where:
 
@@ -188,7 +188,7 @@ where:
 
    type :: mix
       character(len=sl) :: mixing_type  ! 'linear' or 'broyden'
-      real(rp) :: alpha                 ! Mixing parameter
+      real(rp) :: beta                  ! Mixing parameter
       integer :: n_history              ! History length for Broyden
    contains
       procedure :: mix_charge           ! Apply mixing
@@ -198,8 +198,8 @@ where:
 
 See :ref:`keywords/scf_settings` for input keywords:
 
-- ``mixing`` - Mixing type
-- ``alpha`` - Mixing parameter
+- ``mixtype`` - Mixing type
+- ``beta`` - Mixing parameter
 - ``broyden_history`` - Number of previous iterations to keep
 
 Convergence Acceleration
@@ -207,13 +207,13 @@ Convergence Acceleration
 
 **Techniques used:**
 
-1. **Variable mixing parameter** - Increase $\alpha$ as convergence improves
+1. **Variable mixing parameter** - Increase $\beta$ as convergence improves
 2. **Residual norm weighting** - Weight recent residuals more heavily
 3. **Extrapolation** - Predict next density from trend
 
 **When convergence stalls:**
 
-- Reduce mixing parameter $\alpha$
+- Reduce mixing parameter $\beta$
 - Increase Broyden history length
 - Check for oscillations between states
 - Ensure recursion cutoff is adequate
@@ -323,7 +323,7 @@ When SCF Fails to Converge
 
 **Common issues:**
 
-1. **Too aggressive mixing** - Reduce ``alpha``
+1. **Too aggressive mixing** - Reduce ``beta``
 2. **Inadequate recursion depth** - Increase ``llsp``, ``lld``
 3. **Energy mesh too coarse** - Increase ``channels_ldos``
 4. **Unstable Hamiltonian** - Check element/potential parameters
@@ -364,7 +364,7 @@ Main code locations:
 - **Density mixing:** ``source/mix.f90``
 - **Potential update:** ``source/charge.f90::calculate_potential()``
 
-Key control parameters: ``source/control.f90`` (max_iterations, convergence tolerances, etc.)
+Key control parameters: ``source/control.f90`` (nstep, convergence tolerances, etc.)
 
 See Also
 ========

@@ -45,8 +45,8 @@ Major parameters:
 
 - ``nsp`` - Relativistic type (1=SR, 2=FR, 3=NC-SR, 4=NC-FR)
 - ``llsp, lld`` - Recursion cutoffs
-- ``max_iterations`` - SCF limit
-- ``dq_tol`` - Convergence tolerance
+- ``nstep`` - SCF limit
+- ``conv_thr`` - Convergence tolerance
 - ``idos`` - LDOS output flag
 - ``verbose`` - Verbosity flag
 
@@ -73,7 +73,6 @@ Key members:
 
 - ``alat`` - Lattice constant
 - ``nbulk`` - Atoms per unit cell
-- ``nx, ny, nz`` - Cluster dimensions
 - ``r2`` - Hopping cutoff radius²
 
 **hamiltonian.f90**

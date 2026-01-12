@@ -62,7 +62,7 @@ Most commonly used parameters:
    * - nsp
      - int
      - 1 (scalar-rel), 2 (collinear)
-   * - max_iterations
+   * - nstep
      - int
      - 50-100
    * - llsp
@@ -74,13 +74,13 @@ Most commonly used parameters:
    * - alat
      - real
      - system-dependent (Å)
-   * - dq_tol
+   * - conv_thr
      - real
      - 1e-5 to 1e-4
-   * - mixing
+   * - mixtype
      - str
      - 'linear' or 'broyden'
-   * - alpha
+   * - beta
      - real
      - 0.3-0.5
    * - channels_ldos
@@ -92,7 +92,6 @@ Alphabetical Listing (All Parameters)
 
 **A**
 
-- ``alpha`` - Mixing parameter (density mixing)
 - ``alat`` - Lattice constant
 
 **B**
@@ -104,9 +103,9 @@ Alphabetical Listing (All Parameters)
 - ``center_band`` - LMTO orbital center energy
 - ``channels_ldos`` - Number of energy mesh points
 
-**D**
+**C**
 
-- ``dq_tol`` - Charge density convergence tolerance
+- ``conv_thr`` - Charge density convergence tolerance
 
 **E**
 
@@ -126,15 +125,14 @@ Alphabetical Listing (All Parameters)
 
 **M**
 
-- ``max_iterations`` - Maximum SCF iterations
-- ``mixing`` - Density mixing type
+- ``mixtype`` - Density mixing type
 
 **N**
 
 - ``nbulk`` - Number of bulk atoms in cluster
 - ``nlim`` - Cluster size control
 - ``nsp`` - Type of calculation (relativistic, collinear/non-collinear)
-- ``nx, ny, nz`` - Cluster dimensions in lattice coordinates
+- ``nstep`` - Maximum SCF iterations
 
 **O**
 
@@ -169,11 +167,11 @@ See Full Reference Pages
 
 For detailed descriptions, constraints, and examples, see:
 
-- :ref:`keywords/control_parameters` - Calculation control (nsp, max_iterations, etc.)
+- :ref:`keywords/control_parameters` - Calculation control (nsp, nstep, etc.)
 - :ref:`keywords/lattice_geometry` - Structure (alat, lattice type, cluster size)
 - :ref:`keywords/basis_parameters` - LMTO basis (lmax, center_band, width_band)
 - :ref:`keywords/energy_mesh` - Energy integration (channels_ldos, energy range)
-- :ref:`keywords/scf_settings` - SCF convergence (mixing, dq_tol, max_iterations)
+- :ref:`keywords/scf_settings` - SCF convergence (mixtype, conv_thr, nstep)
 - :ref:`keywords/exchange_correlation` - XC functional (txc)
 - :ref:`keywords/output_options` - Output control (post_processing, idos)
 

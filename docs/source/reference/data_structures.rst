@@ -42,13 +42,10 @@ control
    type :: control
       integer :: nsp                         ! 1=SR, 2=FR, 3=NC-SR, 4=NC-FR
       integer :: llsp, lld                   ! Recursion cutoffs
-      integer :: max_iterations              ! SCF iteration limit
       integer :: idos                        ! LDOS output type
       integer :: nlim, npold                 ! Cluster/history settings
       integer :: mext                        ! Spin acceleration
       logical :: lrot, incorb                ! Rotation settings
-      real(rp) :: dq_tol                     ! Convergence tolerance
-      logical :: verbose                     ! Verbose output
    end type control
 
 lattice
@@ -66,7 +63,6 @@ lattice
       real(rp) :: alat                       ! Lattice constant (Å)
       real(rp) :: r2                         ! Hopping cutoff (Å²)
       integer :: nbulk                       ! Atoms per unit cell
-      integer :: nx, ny, nz                  ! Cluster dimensions
       ! ... atomic positions, lattice vectors, etc.
    end type lattice
 
@@ -198,7 +194,7 @@ mix
 
    type :: mix
       character(len=sl) :: mixing_type            ! 'linear' or 'broyden'
-      real(rp) :: alpha                           ! Mixing parameter
+      real(rp) :: beta                            ! Mixing parameter
       integer :: n_history                        ! Broyden history length
       ! ... arrays for old densities and residuals
    end type mix
@@ -357,7 +353,6 @@ Memory Layout
 where:
 
 - ``norb`` ≈ 3×lmax (typically 9 for lmax=2)
-- ``nclust`` ≈ nbulk × nx × ny × nz
 - ``ll_max`` = llsp or lld
 
 Complex vs. Real

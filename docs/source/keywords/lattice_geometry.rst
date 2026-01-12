@@ -69,39 +69,6 @@ nbulk
 
 **Related code:** ``source/lattice.f90::type lattice``
 
-nx, ny, nz
-----------
-
-**Type:** Integer (each)
-
-**Purpose:** Cluster dimensions in lattice coordinates
-
-**Typical range:** 3-11 (odd numbers for center)
-
-**Default:** 5 (each)
-
-**Meaning:**
-
-- Defines number of unit cells in each Cartesian direction
-- Center atom typically at (nx+1)/2, (ny+1)/2, (nz+1)/2
-- Larger values → larger cluster → more expensive
-
-**Example:**
-
-.. code-block:: fortran
-
-   nx = 7
-   ny = 7
-   nz = 1   ! Quasi-2D: surface-like
-
-**Notes:**
-
-- Usually odd values to have center atom
-- Total atoms ≈ nbulk × nx × ny × nz
-- Convergence study: vary nx, ny, nz to check bulk limit
-
-**Related code:** ``source/lattice.f90``
-
 r2
 --
 
@@ -134,32 +101,6 @@ r2
 **Related code:** ``source/lattice.f90::setup_cluster()``
 
 **See also:** :doc:`../code_structure` for details on cluster construction
-
-Bravais Lattice Types
----------------------
-
-Though not explicit in namelists, typical structures:
-
-**Cubic (BCC, FCC, SC):**
-
-.. code-block:: fortran
-
-   alat = 2.87   ! For bcc iron
-   nx = 7        ! Cubic cluster
-   ny = 7
-   nz = 7
-
-**Hexagonal (HCP, graphene):**
-
-.. code-block:: fortran
-
-   nx = 7
-   ny = 7
-   nz = 3        ! Thinner in z for layers
-
-**Tetragonal or lower:**
-
-Use ``nx, ny, nz`` and ``alat`` to specify conventional cell dimensions.
 
 Wigner-Seitz Sphere Parameters
 ==============================

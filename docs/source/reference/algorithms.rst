@@ -14,7 +14,7 @@ The self-consistent field cycle is the core of RS-LMTO.
 .. code-block:: text
 
    function scf_loop(control, lattice, hamiltonian, charge, mixing)
-       for iteration = 1 to max_iterations
+       for iteration = 1 to nstep
            ! 1. Build Hamiltonian with current potential
            H ← build_hamiltonian(lattice, charge, control)
            
@@ -33,12 +33,12 @@ The self-consistent field cycle is the core of RS-LMTO.
            V_eff ← V_xc[charge_new] + V_Hartree[charge_new]
            
            ! 6. Mix charge densities
-           charge ← (1-α)·charge + α·charge_new   (linear)
+           charge ← (1-β)·charge + β·charge_new   (linear)
                   or broyden_mix(charge, charge_new, history)
            
            ! 7. Check convergence
            ΔQ ← || charge - charge_old ||
-           if ΔQ < dq_tol
+           if ΔQ < conv_thr
                return success
            
        return failure (max iterations reached)
@@ -294,20 +294,15 @@ Build atomic cluster from lattice parameters.
 
 .. code-block:: text
 
-   function build_cluster(alat, nx, ny, nz, r2)
+   function build_cluster(alat, supercell_extents, r2)
        atoms = []
        
        ! Generate atoms in supercell
        for i = 1 to nbulk
-           for ix = -nx/2 to nx/2
-               for iy = -ny/2 to ny/2
-                   for iz = -nz/2 to nz/2
-                       ! Lattice position
-                       R = (ix, iy, iz) × alat + R_basis[i]
-                       
-                       ! Check if within cutoff
-                       if |R - R_center| < sqrt(r2)
-                           atoms.append(R)
+           do over supercell points defined in supercell_extents
+               R = lattice_vector(supercell point, alat) + R_basis[i]
+               if |R - R_center| < sqrt(r2)
+                   atoms.append(R)
        
        return atoms
 

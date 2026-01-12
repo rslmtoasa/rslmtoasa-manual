@@ -486,13 +486,12 @@ Extensions
 Calculating Band Structure
 ---------------------------
 
-To calculate bands along high-symmetry directions, add to ``&control``:
+To calculate bands along high-symmetry directions, request band post-processing:
 
 .. code-block:: fortran
 
-   &control
-   calctype = 'B'
-   calc_bands = .true.
+   &calculation
+      post_processing = 'bands'
    /
 
 Calculating Density of States

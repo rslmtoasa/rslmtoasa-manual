@@ -13,8 +13,8 @@ including density mixing, convergence criteria, and iteration limits.
 Parameters
 ==========
 
-mixing
-------
+mixtype
+-------
 
 **Type:** Character string
 
@@ -28,13 +28,13 @@ mixing
 
 .. code-block:: fortran
 
-   mixing = 'broyden'
+   mixtype = 'broyden'
 
 **Linear Mixing:**
 
 .. math::
 
-   n^{(i+1/2)} = \alpha n_{\text{new}}^{(i+1)} + (1-\alpha) n_{\text{old}}^{(i)}
+   n^{(i+1/2)} = \beta n_{\text{new}}^{(i+1)} + (1-\beta) n_{\text{old}}^{(i)}
 
 - Simple and robust
 - Can be slow to converge
@@ -55,8 +55,8 @@ Much faster convergence in most cases.
 
 **See also:** :ref:`theory/scf_cycle`
 
-alpha
------
+beta
+----
 
 **Type:** Real
 
@@ -70,17 +70,17 @@ alpha
 
 .. code-block:: fortran
 
-   alpha = 0.3  ! Conservative
+   beta = 0.3  ! Conservative
 
 **Meaning:**
 
 - New density weight in mixing formula
-- Larger α → larger step (faster but riskier)
-- Smaller α → smaller step (slower but more stable)
+- Larger β → larger step (faster but riskier)
+- Smaller β → smaller step (slower but more stable)
 
 **Guidance:**
 
-- Start with α = 0.5
+- Start with β = 0.5
 - If oscillating: reduce to 0.2-0.3
 - If converging too slowly: increase to 0.6-0.7
 
@@ -121,14 +121,14 @@ broyden_history
 
 **Notes:**
 
-- Only used if ``mixing = 'broyden'``
+- Only used if ``mixtype = 'broyden'``
 - Increases memory usage (~10% for large systems)
 - Significant impact on convergence rate
 
 **Related code:** ``source/mix.f90``
 
-max_iterations (also in &control)
-----------------------------------
+nstep (also in &self)
+---------------------
 
 **Type:** Integer
 
@@ -142,15 +142,14 @@ max_iterations (also in &control)
 
 .. code-block:: fortran
 
-   max_iterations = 80
+   nstep = 80
 
 **Notes:**
 
-- Can be in &control or &self (check your version)
 - Calculation stops when either iteration limit or convergence reached
 
-dq_tol (also in &control)
---------------------------
+conv_thr
+--------
 
 **Type:** Real (Ry)
 
@@ -164,13 +163,13 @@ dq_tol (also in &control)
 
 .. code-block:: fortran
 
-   dq_tol = 1.0e-5
+   conv_thr = 1.0e-5
 
 **Meaning:**
 
 .. math::
 
-   \sum_i |q_i^{(n+1)} - q_i^{(n)}| < \text{dq\_tol}
+   \sum_i |q_i^{(n+1)} - q_i^{(n)}| < \text{conv\_thr}
 
 **Guidance:**
 
@@ -210,7 +209,7 @@ SCF Convergence Behavior
 
 - ΔQ alternates between small and large values
 - Usually indicates mixing parameter too aggressive
-- Solution: reduce α, switch to linear mixing
+- Solution: reduce β, switch to linear mixing
 
 **Stagnation (very bad):**
 
@@ -224,7 +223,7 @@ Troubleshooting SCF Convergence
 **Problem: Doesn't converge at all**
 
 Solutions:
-- Reduce α from 0.5 to 0.2
+- Reduce β from 0.5 to 0.2
 - Switch from 'broyden' to 'linear' mixing
 - Check element parameters and lattice constant
 
@@ -246,9 +245,9 @@ Solutions:
 
 This usually indicates non-convergent SCF.
 Solutions:
-- Ensure dq_tol is tight enough
+- Ensure conv_thr is tight enough
 - Check Hamiltonian parameters
-- Verify cluster size adequate (increase r2 or nx,ny,nz)
+- Verify cluster size adequate (increase r2)
 
 Advanced SCF Options
 ====================

@@ -201,13 +201,13 @@ Typical Workflow
 Input Parameters
 ================
 
-In ``&control`` namelist:
+In ``&sd`` namelist:
 
-- ``asd_nsteps`` - Number of ASD time steps (default: 1000)
-- ``asd_dt`` - Time step in femtoseconds (default: 0.1 fs)
-- ``asd_temp`` - Temperature in Kelvin (default: 0)
-- ``asd_damping`` - Gilbert damping :math:`\alpha` (default: 0.1)
-- ``asd_integrator`` - Integration method ('depondt' or 'heun')
+- ``nt`` - Number of ASD time steps (default: 1000)
+- ``dt`` - Time step in femtoseconds (default: 0.1 fs)
+- ``sd_temp`` - Temperature in Kelvin (default: 0)
+- ``alpha`` - Gilbert damping (default: 0.1)
+- ``integrator`` - Integration method ('depondt' or 'heun')
 
 Example Input
 =============
@@ -217,11 +217,13 @@ Example Input
    &control
       nsp = 2                  ! Spin-polarized
       processing = 'sd'        ! Spin dynamics
-      asd_nsteps = 10000
-      asd_dt = 0.1             ! 0.1 fs time step
-      asd_temp = 300.0         ! 300 K
-      asd_damping = 0.1        ! Gilbert damping
-      asd_integrator = 'depondt'
+   /
+   &sd
+      nt = 10000
+      dt = 0.1                 ! 0.1 fs time step
+      sd_temp = 300.0          ! 300 K
+      alpha = 0.1              ! Gilbert damping
+      integrator = 'depondt'
    /
 
 Output Files

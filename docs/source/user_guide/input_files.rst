@@ -38,7 +38,7 @@ Example
 .. code-block:: fortran
 
    &control
-      max_iterations = 100,
+      nstep = 100,
       nsp = 1,          ! Collinear scalar-relativistic
       verbose = .true.
    /
@@ -46,7 +46,6 @@ Example
    &lattice
       alat = 5.4,       ! Lattice constant in Angstrom
       nbulk = 1,        ! Number of bulk atoms
-      nx = 5, ny = 5, nz = 1  ! Cluster geometry
    /
 
 Structure and Content
@@ -71,14 +70,14 @@ Essential Parameters
 - ``nbulk`` - Number of bulk atoms in cluster
 - ``alat`` - Lattice constant (Å)
 - ``nsp`` - Type of calculation (1=SR collinear, 2=collinear FR, 3=NC SR, 4=NC FR)
-- ``max_iterations`` - Maximum SCF iterations
+- ``nstep`` - Maximum SCF iterations
 
 **Recommended to specify:**
 
-- ``dq_tol`` - SCF convergence criterion
+- ``conv_thr`` - SCF convergence criterion
 - ``llsp`` - Recursion cutoff for sp electrons
 - ``lld`` - Recursion cutoff for d electrons
-- ``mixing`` and ``alpha`` - Density mixing parameters
+- ``mixtype`` and ``beta`` - Density mixing parameters
 
 Running a Calculation
 =====================
@@ -177,15 +176,14 @@ Create a simple `test.nml` file for a new system:
 
    &lattice
       alat = 5.4,
-      nbulk = 1,
-      nx = 5, ny = 5, nz = 1
+      nbulk = 1
    /
 
    &control
       nsp = 1,
       llsp = 60,
       lld = 60,
-      max_iterations = 50,
+      nstep = 50,
       verbose = .true.
    /
 
@@ -196,8 +194,8 @@ Create a simple `test.nml` file for a new system:
    /
 
    &self
-      mixing = 'broyden',
-      alpha = 0.5
+      mixtype = 'broyden',
+      beta = 0.5
    /
 
 Common Pitfalls
@@ -230,7 +228,7 @@ Error: "Sphere overlap exceeds limit"
 **5. SCF fails to converge**
 
 **Solution:** 
-- Reduce mixing parameter ``alpha``
+- Reduce mixing parameter ``beta``
 - Increase Broyden history
 - Check recursion cutoff (``llsp``, ``lld``)
 - Reduce energy mesh spacing
@@ -277,7 +275,7 @@ For systems with multiple atom types, include separate namelists:
 
 Cluster geometry is built via:
 
-- ``nx, ny, nz`` - Grid dimensions
+- Grid dimensions: defined by lattice setup; ensure cutoff ``r2`` is adequate
 - ``alat`` - Lattice constant
 - ``r2`` - Cutoff radius for neighbors
 

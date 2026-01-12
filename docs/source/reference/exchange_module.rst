@@ -441,7 +441,6 @@ Workflow
 .. code-block:: fortran
 
    &control
-      calc_exchange = .true.
       njij = 10           ! Number of pairs
    /
 

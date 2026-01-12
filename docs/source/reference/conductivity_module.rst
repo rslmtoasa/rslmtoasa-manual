@@ -533,7 +533,6 @@ Input Parameters
 .. code-block:: fortran
 
    &control
-      calc_conductivity = .true.
       cond_ll = 100             ! Chebyshev expansion order
       cond_calctype = 'average' ! or 'per_type'
       random_vec_num = 20       ! Stochastic vectors
@@ -553,7 +552,7 @@ Workflow
 --------
 
 1. **Complete SCF calculation** first
-2. **Enable conductivity:** Set ``calc_conductivity = .true.``
+2. **Enable conductivity:** Set appropriate conductivity options in ``&control`` (e.g., ``cond_calctype`` and ``cond_ll``)
 3. **Run calculation:** Conductivity computed in post-processing
 4. **Check convergence:** Vary ``cond_ll``, check $\sigma(E_F)$ stability
 5. **Analyze output:** Plot $\sigma(E)$, identify features
@@ -567,7 +566,6 @@ Example: Conductivity of Cu
       calctype = 'S'
    /
    &control
-      calc_conductivity = .true.
       cond_ll = 150
       cond_calctype = 'average'
    /
