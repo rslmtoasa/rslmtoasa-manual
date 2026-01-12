@@ -1,29 +1,20 @@
 # Minimal makefile for Sphinx documentation
 #
 
-# You can set these variables from the command line.
+# You can set these variables from the command line, and also
+# from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
-PAPER         ?=
-BUILDDIR      ?= _build
+SOURCEDIR     = source
+BUILDDIR      = _build
 
-# Internal variables.
-PAPEROPT_letter = -D latex_paper_size=letter
-PAPEROPT_a4     = -D latex_paper_size=a4
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
-# the i18n builder cannot share the output directory and must create a temporary
-# one, hence we create a tmp directory.
-I18NDIR         = $(BUILDDIR)/locale
+# Put it first so that "make" without argument is like "make help".
+help:
+	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-# the i18n builder cannot share the output directory and must create a temporary
-# one, hence we create a temporary directory for the documents in this directory.
 .PHONY: help Makefile
 
-# Put it first so that "make" without argument is still useful for
-help:
-	@$(SPHINXBUILD) -M help $(ALLSPHINXOPTS) $(BUILDDIR)
-
-.DEFAULT_TARGET := help
-
+# Catch-all target: route all unknown targets to Sphinx using the new
+# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	@$(SPHINXBUILD) -M $@ $(ALLSPHINXOPTS) $(BUILDDIR)
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
