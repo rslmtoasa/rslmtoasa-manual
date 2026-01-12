@@ -34,6 +34,9 @@ jobs:
         working-directory: docs
         run: make html
 
+      - name: Check build output
+        run: ls -la docs/_build/ || echo "Build directory not found"
+
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
