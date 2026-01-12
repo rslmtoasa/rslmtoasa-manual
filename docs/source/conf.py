@@ -54,6 +54,15 @@ html_theme_options = {
     'style_external_links': False,
 }
 
+# GitHub integration - enables "Edit on GitHub" links
+html_context = {
+    'display_github': True,
+    'github_user': 'rslmtoasa',
+    'github_repo': 'rslmtoasa-manual',
+    'github_version': 'main',
+    'conf_py_path': '/docs/source/',
+}
+
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
